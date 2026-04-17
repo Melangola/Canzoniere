@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Canzoniere</title>
+  <script src="https://unpkg.com/chordsheetjs@latest/dist/chordsheetjs.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <h1 id="title">Loading...</h1>
+  <div id="song"></div>
+
+  <script>
+    const path = window.location.pathname.replace(/^.*?\/songs\//, "songs/");
+
+    async function loadSong() {
+      if (!path || path === window.location.pathname) {
+        document.getElementById(\"title\").textContent = \"No song selected\";
+        document.getElementById(\"song\").textContent = \"Open a file under /songs/\";
+        return;
+      }
+
+      const response = await fetch(path);
+      const text = await response.text();
+
+      const fileName = path.split("/").pop().replace(/\.cho$/, "");
+      document.getElementById("title").textContent = fileName.replace(/-/g, " ");
+
+      const parser = new ChordSheetJS.ChordProParser();
+      const parsedSong = parser.parse(text);
+      const formatter = new ChordSheetJS.HtmlTableFormatter();
+
+      document.getElementById("song").innerHTML = formatter.format(parsedSong);
+    }
+
+    loadSong();
+  </script>
+</body>
+</html>
