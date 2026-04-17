@@ -48,7 +48,7 @@
         // accordi
         const parser = new ChordSheetJS.ChordProParser();
         const song = parser.parse(text);
-        const formatter = new ChordSheetJS.HtmlTableFormatter();
+        const formatter = new ChordSheetJS.HtmlDivFormatter();
         document.getElementById("song").innerHTML = formatter.format(song);
       } catch (e) {
         document.getElementById("song").textContent = e.message;
