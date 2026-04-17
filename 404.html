@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Redirecting…</title>
+  <script>
+    (function () {
+      const path = window.location.pathname;
+      const repoBase = '/repository';
+      const target = repoBase + '/?route=' + encodeURIComponent(path);
+      window.location.replace(target);
+    })();
+  </script>
+</head>
+<body></body>
+</html>
