@@ -13,35 +13,42 @@
       padding: 20px;
       line-height: 1.6;
     }
+    #song {
+      margin-top: 20px;
+    }
   </style>
 </head>
 <body>
-  <h1 id="title">Loading...</h1>
+  <h1 id="title">Caricamento...</h1>
   <div id="song"></div>
-
   <script>
-    const path = window.location.pathname.replace(/^.*?\/songs\//, "songs/");
-
+    const params = new URLSearchParams(window.location.search);
+    // expected: ?path=/wonderwall.txt
+    let myPath = params.get("path");
     async function loadSong() {
-      if (!path || path === window.location.pathname) {
-        document.getElementById(\"title\").textContent = \"No song selected\";
-        document.getElementById(\"song\").textContent = \"Open a file under /songs/\";
+      if (!myPath) {
+        document.getElementById("title").textContent = "Brisa";
+        document.getElementById("song").textContent = "Canzone non trovata, usa ?path=/filename.txt";
         return;
       }
-
-      const response = await fetch(path);
-      const text = await response.text();
-
-      const fileName = path.split("/").pop().replace(/\.cho$/, "");
-      document.getElementById("title").textContent = fileName.replace(/-/g, " ");
-
-      const parser = new ChordSheetJS.ChordProParser();
-      const parsedSong = parser.parse(text);
-      const formatter = new ChordSheetJS.HtmlTableFormatter();
-
-      document.getElementById("song").innerHTML = formatter.format(parsedSong);
+      // normalize path
+      if (myPath.startsWith("/")) myPath = myPath.slice(1);
+      // assume all songs are inside canzoni/ folder
+      const filePath = "canzoni/" + myPath;
+      try {
+        const response = await fetch(filePath);
+        const text = await response.text();
+        const fileName = myPath.split("/").pop().replace(/\.txt$/, "");
+        document.getElementById("title").textContent = fileName.replace(/-/g, " ");
+        const parser = new ChordSheetJS.ChordProParser();
+        const song = parser.parse(text);
+        const formatter = new ChordSheetJS.HtmlTableFormatter();
+        document.getElementById("song").innerHTML = formatter.format(song);
+      } catch (e) {
+        document.getElementById("title").textContent = "Errore nel caricamento";
+        document.getElementById("song").textContent = filePath;
+      }
     }
-
     loadSong();
   </script>
 </body>
