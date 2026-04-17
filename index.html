@@ -32,30 +32,26 @@
         document.getElementById("song").textContent = "Canzone non trovata, usa ?path=/filename.txt";
         return;
       }
-      // normalize path
-      if (myPath.startsWith("/")) myPath = myPath.slice(1);
+      
+      const fileName = myPath.split("/").pop().replace(/\.txt$/, "");
+      document.getElementById("title").textContent = fileName.replace(/-/g, " ");
+      
       // assume all songs are inside canzoni/ folder
       const filePath = "canzoni/" + myPath;
       try {
         const response = await fetch(filePath);
         if (!response.ok) {
-          throw new Error("File not found: " + filePath);
+          throw new Error("File non trovato: " + filePath + "\n" + text);
         }
         const text = await response.text();
 
-        //tmp
-        document.getElementById("song").textContent = text;
-        
-        const fileName = myPath.split("/").pop().replace(/\.txt$/, "");
-        document.getElementById("title").textContent = fileName.replace(/-/g, " ");
+        // accordi
         const parser = new ChordSheetJS.ChordProParser();
         const song = parser.parse(text);
         const formatter = new ChordSheetJS.HtmlTableFormatter();
         document.getElementById("song").innerHTML = formatter.format(song);
       } catch (e) {
-        document.getElementById("title").textContent = "Errore nel caricamento";
         document.getElementById("song").textContent = e.message;
-        return;
       }
     }
     loadSong();
