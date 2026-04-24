@@ -14,8 +14,12 @@
       padding: 20px;
       line-height: 1.6;
     }
-    #song {
-      margin-top: 20px;
+    .song {
+      white-space: pre-wrap;
+      line-height: 1.6;
+    }
+    .song .paragraph {
+      margin-top: 18px;
     }
   </style>
 </head>
@@ -24,16 +28,16 @@
   <div id="song"></div>
   <script>
     const params = new URLSearchParams(window.location.search);
-    // expected: ?path=/wonderwall.txt
+    // expected: ?path=wonderwall.txt
     let myPath = params.get("path");
     async function loadSong() {
       if (!myPath) {
         document.getElementById("title").textContent = "Brisa";
-        document.getElementById("song").textContent = "Canzone non trovata, usa ?path=/filename.txt";
+        document.getElementById("song").textContent = "Canzone non trovata, usa ?path=filename.txt";
         return;
       }
       
-      const fileName = myPath.split("/").pop().replace(/\.txt$/, "");
+      const fileName = myPath.replace(/\.txt$/, "");
       document.getElementById("title").textContent = fileName.replace(/-/g, " ");
       
       // assume all songs are inside canzoni/ folder
