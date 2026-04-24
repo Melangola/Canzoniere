@@ -2,74 +2,310 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Canzoniere</title>
   <script src="chordsheetbundle.js"></script>
-  <!-- script src="https://unpkg.com/chordsheetjs@latest/dist/chordsheetjs.min.js"></script -->
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 900px;
-      padding: 20px;
-      line-height: 1.2;
+    :root {
+      color-scheme: light;
+      --bg: #fcfaf5;
+      --card: #fffdf8;
+      --ink: #1f1a17;
+      --muted: #6a5f57;
+      --border: #ded2c5;
+      --accent: #1f6f5f;
+      --accent-soft: #e6f2ee;
     }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      background:
+        radial-gradient(circle at top left, #f2e3d0 0, transparent 30%),
+        linear-gradient(180deg, #fffdf8 0%, var(--bg) 100%);
+      color: var(--ink);
+      line-height: 1.4;
+    }
+
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 32px 20px 64px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      line-height: 1;
+    }
+
+    .subtitle {
+      margin: 0 0 28px;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .panel {
+      background: rgba(255, 253, 248, 0.92);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(89, 67, 48, 0.08);
+      backdrop-filter: blur(8px);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .song-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 10px;
+    }
+
+    .song-list a,
+    .back-link {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .song-list a {
+      display: block;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: white;
+      transition: transform 140ms ease, border-color 140ms ease, background 140ms ease;
+    }
+
+    .song-list a:hover,
+    .song-list a:focus-visible {
+      transform: translateY(-1px);
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      outline: none;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 18px;
+    }
+
     #song {
       line-height: 1.6;
       margin-top: 1rem;
     }
+
     .paragraph {
       margin-bottom: 1.2rem;
     }
+
     .row {
       display: flex;
       flex-wrap: nowrap;
       align-items: flex-end;
       gap: 0.2rem;
     }
+
     .column {
       display: inline-flex;
       flex-direction: column;
       align-items: flex-start;
       white-space: preserve nowrap;
     }
+
+    .message {
+      color: var(--muted);
+      margin: 0;
+    }
   </style>
 </head>
 <body>
-  <h1 id="title">Caricamento...</h1>
-  <div id="song"></div>
+  <main>
+    <section id="home-view">
+      <h1>Canzoniere</h1>
+      <p class="subtitle">Scegli un brano dall'elenco alfabetico.</p>
+      <div class="panel">
+        <ul id="song-list" class="song-list"></ul>
+        <p id="home-message" class="message hidden"></p>
+      </div>
+    </section>
+
+    <section id="song-view" class="hidden">
+      <a class="back-link" href="./">&larr; Torna alla home</a>
+      <h1 id="title">Caricamento...</h1>
+      <div id="song" class="panel"></div>
+    </section>
+  </main>
+
   <script>
     const params = new URLSearchParams(window.location.search);
-    // expected: ?path=wonderwall.txt
-    let myPath = params.get("path");
-    async function loadSong() {
-      if (!myPath) {
-        document.getElementById("title").textContent = "Brisa";
-        document.getElementById("song").textContent = "Canzone non trovata, usa ?path=filename.txt";
+    const songPath = params.get("path");
+
+    const homeView = document.getElementById("home-view");
+    const songView = document.getElementById("song-view");
+    const titleEl = document.getElementById("title");
+    const songEl = document.getElementById("song");
+    const songListEl = document.getElementById("song-list");
+    const homeMessageEl = document.getElementById("home-message");
+    const songsDir = "canzoni";
+
+    function fileNameToTitle(fileName) {
+      return fileName
+        .replace(/\.txt$/i, "")
+        .replace(/[-_]+/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function inferGitHubRepo() {
+      const { hostname, pathname } = window.location;
+      if (!hostname.endsWith(".github.io")) {
+        return null;
+      }
+
+      const owner = hostname.replace(/\.github\.io$/i, "");
+      const pathParts = pathname.split("/").filter(Boolean);
+      const repo = pathParts.length > 0 ? pathParts[0] : `${owner}.github.io`;
+      return { owner, repo };
+    }
+
+    async function loadSongIndexFromGitHub() {
+      const repoInfo = inferGitHubRepo();
+      if (!repoInfo) {
+        throw new Error("Repository GitHub non rilevato");
+      }
+
+      const apiUrl = `https://api.github.com/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${songsDir}`;
+      const response = await fetch(apiUrl, {
+        headers: {
+          Accept: "application/vnd.github+json"
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`Impossibile leggere ${songsDir} dal repository GitHub`);
+      }
+
+      const items = await response.json();
+      if (!Array.isArray(items)) {
+        throw new Error("Risposta GitHub non valida");
+      }
+
+      return items
+        .map((item) => item && item.name)
+        .filter((item) => typeof item === "string" && item.trim().toLowerCase().endsWith(".txt"))
+        .sort((a, b) => fileNameToTitle(a).localeCompare(fileNameToTitle(b), undefined, { sensitivity: "base" }));
+    }
+
+    async function loadSongIndexFromManifest() {
+      const response = await fetch("songs.json", { cache: "no-store" });
+      if (!response.ok) {
+        throw new Error("Impossibile caricare songs.json");
+      }
+
+      const items = await response.json();
+      if (!Array.isArray(items)) {
+        throw new Error("songs.json deve contenere un array di file .txt");
+      }
+
+      return items
+        .filter((item) => typeof item === "string" && item.trim().toLowerCase().endsWith(".txt"))
+        .sort((a, b) => fileNameToTitle(a).localeCompare(fileNameToTitle(b), undefined, { sensitivity: "base" }));
+    }
+
+    async function loadSongIndex() {
+      try {
+        const githubFiles = await loadSongIndexFromGitHub();
+        if (githubFiles.length > 0) {
+          return githubFiles;
+        }
+      } catch (error) {
+        console.warn(error);
+      }
+
+      return loadSongIndexFromManifest();
+    }
+
+    function renderHome(songFiles) {
+      homeView.classList.remove("hidden");
+      songView.classList.add("hidden");
+      songListEl.innerHTML = "";
+
+      if (songFiles.length === 0) {
+        homeMessageEl.textContent = "Nessuna canzone trovata. Aggiungi i file .txt in canzoni/. Se GitHub Pages non riesce a rilevarli automaticamente, usa songs.json come fallback.";
+        homeMessageEl.classList.remove("hidden");
         return;
       }
-      
-      const fileName = myPath.replace(/\.txt$/, "");
-      document.getElementById("title").textContent = fileName.replace(/-/g, " ");
-      
-      // assume all songs are inside canzoni/ folder
-      const filePath = "canzoni/" + myPath;
-      try {
-        const response = await fetch(filePath);
-        if (!response.ok) {
-          throw new Error("File non trovato: " + filePath + "\n" + text);
-        }
-        const text = await response.text();
 
-        // accordi
+      homeMessageEl.classList.add("hidden");
+
+      for (const fileName of songFiles) {
+        const li = document.createElement("li");
+        const link = document.createElement("a");
+        link.href = `?path=${encodeURIComponent(fileName)}`;
+        link.textContent = fileNameToTitle(fileName);
+        li.appendChild(link);
+        songListEl.appendChild(li);
+      }
+    }
+
+    async function renderSong(path) {
+      homeView.classList.add("hidden");
+      songView.classList.remove("hidden");
+
+      const fileName = path.split("/").pop() || path;
+      titleEl.textContent = fileNameToTitle(fileName);
+
+      try {
+        const response = await fetch(`${songsDir}/${path}`);
+        if (!response.ok) {
+          throw new Error(`File non trovato: ${songsDir}/${path}`);
+        }
+
+        const text = await response.text();
         const parser = new ChordSheetJS.ChordProParser();
         const song = parser.parse(text);
         const formatter = new ChordSheetJS.HtmlDivFormatter();
-        document.getElementById("song").innerHTML = formatter.format(song);
-      } catch (e) {
-        document.getElementById("song").textContent = e.message;
+        songEl.innerHTML = formatter.format(song);
+      } catch (error) {
+        songEl.textContent = error.message;
       }
     }
-    loadSong();
+
+    async function init() {
+      try {
+        const songFiles = await loadSongIndex();
+        if (songPath) {
+          await renderSong(songPath);
+        } else {
+          renderHome(songFiles);
+        }
+      } catch (error) {
+        if (songPath) {
+          titleEl.textContent = "Errore";
+          songEl.textContent = error.message;
+          homeView.classList.add("hidden");
+          songView.classList.remove("hidden");
+          return;
+        }
+
+        homeView.classList.remove("hidden");
+        songView.classList.add("hidden");
+        homeMessageEl.textContent = error.message;
+        homeMessageEl.classList.remove("hidden");
+      }
+    }
+
+    init();
   </script>
 </body>
 </html>
