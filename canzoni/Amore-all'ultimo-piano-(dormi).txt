@@ -1,20 +1,17 @@
-D   D U   U D U
-1 & 2 & 3 & 4 &
+[D   D U   U D U]
+[1 & 2 & 3 & 4 &]
 [G]
-D   D U D   D U   U   U   U D U
-1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 &
+[D   D U D   D U   U   U   U D U]
+[1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 &]
 
 
-C F C F
-C F G
+[C F C F]
+[C F G]
 
-[C F]Dormi, s'è fatto [C F]tardi;
-     C                       F
-sono ore che mi guardi in silenzio
-          G
-e che non parli
-        C    F                 C     F
-tranquillizza le tue gambe nervose,
+[C]Dormi[F], s'è fatto [C]tardi;[F]
+sono [C]ore che mi guardi in [F]silenzio
+e che non [G]parli
+[C]tranquillizza[F] le tue gambe [C]nervose,[F]
              C               F
 sono come ragazze offese, carine
               G
