@@ -8,14 +8,12 @@
 [C F C F]
 [C F G]
 
-[C]Dormi[F], s'è fatto [C]tardi;[F]
+[C  F]Dormi, s'è fatto [C  F]tardi;
 sono [C]ore che mi guardi in [F]silenzio
 e che non [G]parli
-[C]tranquillizza[F] le tue gambe [C]nervose,[F]
-             C               F
-sono come ragazze offese, carine
-              G
-e troppo vanitose.
+[C  F]tranquillizza le tue gambe [C  F]nervose,
+sono come [C]ragazze offese, [F]carine
+e troppo [G]vanitose.
 
              Am                Em
 Sciogli i capelli, lasciati andare,
