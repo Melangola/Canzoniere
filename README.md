@@ -9,6 +9,7 @@ Altrimenti, puoi aggiungere il testo come file "Nome-Della-Canzone.txt" e creare
 # Documentazione
 TODO
 Le canzoni con accordi sono salvate in cormato ChordsPro, così anche semplice testo senza accordi viene visualizzato correttamente.
+Per mostrare un link a YouTube nella pagina della canzone, aggiungi una direttiva ChordPro come `{youtube: https://www.youtube.com/watch?v=...}` nel file della canzone.
 
 # TODO sviluppo
 - conversione degli accordi tra CDE e DoReMi
