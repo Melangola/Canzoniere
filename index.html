@@ -16,11 +16,11 @@
       
       --bg: #006633;
       --card: #000066;
-      --ink: #112211;
+      --ink: #111212;
       --muted: #aaaaaa;
       --border: #ffffff;
       --accent: #ffffff;
-      --accent-soft: #aaaaaa;
+      --accent-soft: #eeeeee;
     }
 
     * {
@@ -50,12 +50,6 @@
       line-height: 1;
     }
 
-    .subtitle {
-      margin: 0 0 28px;
-      color: var(--muted);
-      font-size: 1rem;
-    }
-
     .panel {
       background: var(--green);
       border: 2px solid var(--green-shadow);
@@ -78,7 +72,7 @@
 
     .song-list a,
     .back-link {
-      color: var(--accent);
+      color: var(--white);
       text-decoration: none;
       font-weight: 600;
     }
@@ -141,7 +135,6 @@
   <main>
     <section id="home-view">
       <h1>Canzoniere degli Abruzzi</h1>
-      <p class="subtitle">Indice:</p>
       <div class="panel">
         <ul id="song-list" class="song-list"></ul>
         <p id="home-message" class="message hidden"></p>
