@@ -8,13 +8,17 @@
   <style>
     :root {
       color-scheme: light;
-      --bg: #fcfaf5;
-      --card: #fffdf8;
-      --ink: #1f1a17;
-      --muted: #6a5f57;
-      --border: #ded2c5;
-      --accent: #1f6f5f;
-      --accent-soft: #e6f2ee;
+      --white: #ffffff;
+      --green: #008855;
+      --blue: #333399;
+      
+      --bg: #006633;
+      --card: #000066;
+      --ink: #112211;
+      --muted: #aaaaaa;
+      --border: #ffffff;
+      --accent: #ffffff;
+      --accent-soft: #aaaaaa;
     }
 
     * {
@@ -24,13 +28,11 @@
     body {
       margin: 0;
       font-family: Georgia, "Times New Roman", serif;
-      background:
-        radial-gradient(circle at top left, #f2e3d0 0, transparent 30%),
-        linear-gradient(180deg, #fffdf8 0%, var(--bg) 100%);
+      background: var(--blue);
       background-repeat: no-repeat;
       background-attachment: fixed;
       background-size: 100% 100%;
-      color: var(--ink);
+      color: var(--white);
       line-height: 1.4;
     }
 
@@ -53,12 +55,11 @@
     }
 
     .panel {
-      background: rgba(255, 253, 248, 0.92);
-      border: 1px solid var(--border);
-      border-radius: 18px;
+      background: var(--green);
+      border: 2px solid var(--white);
+      border-radius: 8px;
       padding: 24px;
-      box-shadow: 0 10px 30px rgba(89, 67, 48, 0.08);
-      backdrop-filter: blur(8px);
+      box-shadow: 8px 5px var(--white);
     }
 
     .hidden {
@@ -83,9 +84,10 @@
     .song-list a {
       display: block;
       padding: 12px 14px;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      background: white;
+      border: none;
+      border-radius: 6px;
+      background: var(--white);
+      color: var(--ink);
       transition: transform 140ms ease, border-color 140ms ease, background 140ms ease;
     }
 
