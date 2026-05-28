@@ -5,18 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Canzoniere</title>
   <link rel="stylesheet" href="styles.css" />
+  <script src="chordsheetbundle.js" defer></script>
   <script src="js/common.js" defer></script>
-  <script src="js/index.js" defer></script>
+  <script src="js/song.js" defer></script>
 </head>
 <body>
   <main>
-    <section id="home-view">
-      <h1>Canzoniere degli Abruzzi</h1>
-      <div class="panel">
-        <ul id="song-list" class="song-list"></ul>
-        <p id="home-message" class="message hidden"></p>
-      </div>
-    </section>
+    <a class="back-link" href="./">&larr; Torna all'indice</a>
+    <h1 id="title">Canzone</h1>
+    <div id="song" class="panel"></div>
   </main>
 </body>
 </html>
