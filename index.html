@@ -10,12 +10,15 @@
       color-scheme: light;
       --white: #ffffff;
       --green: #008855;
-      --blue: #333399;
+      --blue: #3333ff;
       
       --green-shadow: #006633;
+      --blue-shadow: #333399;
       
-      --bg: #006633;
-      --card: #000066;
+      --bg: var(--green);
+      --card: var(--blue);
+      --card-shadow: var(--blue-shadow);
+      --list: var(--white);
       --ink: #111212;
       --muted: #aaaaaa;
       --border: #ffffff;
@@ -30,7 +33,7 @@
     body {
       margin: 0;
       font-family: Georgia, "Times New Roman", serif;
-      background: var(--blue);
+      background: var(--bg);
       background-repeat: no-repeat;
       background-attachment: fixed;
       background-size: 100% 100%;
@@ -51,11 +54,11 @@
     }
 
     .panel {
-      background: var(--green);
-      border: 2px solid var(--green-shadow);
+      background: var(--card);
+      border: 2px solid var(--card-shadow);
       border-radius: 8px;
       padding: 32px;
-      box-shadow: 8px 5px var(--green-shadow);
+      box-shadow: 8px 5px var(--card-shadow);
     }
 
     .hidden {
@@ -82,7 +85,7 @@
       padding: 12px 14px;
       border: none;
       border-radius: 6px;
-      background: var(--white);
+      background: var(--list);
       color: var(--ink);
       transition: transform 140ms ease, border-color 140ms ease, background 140ms ease;
     }
