@@ -45,6 +45,44 @@ h1 {
   line-height: 1;
 }
 
+.song-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.song-heading h1 {
+  margin-bottom: 0;
+}
+
+.youtube-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  color: #ff0000;
+  background: var(--white);
+  border-radius: 999px;
+  text-decoration: none;
+  box-shadow: 4px 3px var(--green-shadow);
+  transition: transform 140ms ease, background 140ms ease;
+}
+
+.youtube-link:hover,
+.youtube-link:focus-visible {
+  transform: translateY(-1px);
+  background: var(--accent-soft);
+  outline: none;
+}
+
+.youtube-icon {
+  width: 1.55rem;
+  height: 1.55rem;
+  fill: currentColor;
+}
+
 .panel {
   background: var(--card);
   border: 2px solid var(--card-shadow);
