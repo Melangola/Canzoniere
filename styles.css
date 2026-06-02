@@ -2,10 +2,10 @@
   color-scheme: light;
   --white: #ffffff;
   --green: #407D39;
-  --blue: #3333ff;
+  --blue: #3636c8;
 
-  --green-shadow: #006633;
-  --blue-shadow: #333399;
+  --green-shadow: #18653f;
+  --blue-shadow: #21216f;
 
   --bg: var(--green);
   --card: var(--blue);
