@@ -164,3 +164,65 @@ h1 {
   line-height: 1;
   color: var(--muted);
 }
+
+.strum-patterns {
+  display: grid;
+  gap: 1rem;
+  margin: 0 0 1.5rem;
+  padding: 1rem;
+  color: var(--ink);
+  background: var(--white);
+  border-radius: 8px;
+  box-shadow: 4px 3px var(--blue-shadow);
+}
+
+.strum-pattern {
+  overflow-x: auto;
+}
+
+.strum-pattern__title {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+.strum-pattern__grid {
+  display: grid;
+  grid-template-columns: max-content repeat(var(--strum-steps), minmax(1.75rem, 1fr));
+  gap: 0.25rem;
+  align-items: center;
+  min-width: max-content;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+}
+
+.strum-pattern__row-label {
+  padding-right: 0.5rem;
+  color: #444444;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.strum-pattern__cell {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 1.75rem;
+  padding: 0.15rem 0.3rem;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.strum-pattern__beat {
+  color: #555555;
+  background: var(--accent-soft);
+  font-size: 0.82rem;
+}
+
+.strum-pattern__stroke {
+  color: var(--white);
+  background: var(--green);
+  font-size: 1.1rem;
+  font-weight: 700;
+}
