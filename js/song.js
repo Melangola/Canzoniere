@@ -3,7 +3,7 @@ const songPath = params.get("path");
 const titleEl = document.getElementById("title");
 const songEl = document.getElementById("song");
 const youtubeLinkEl = document.getElementById("youtube-link");
-const { songsDir, fileNameToTitle } = window.Canzoniere;
+const { songsDir, fileNameToTitle, extractChordProTitle } = window.Canzoniere;
 
 function extractYoutubeUrl(text) {
   const youtubeDirective = text.match(/^\s*\{youtube:\s*([^}]+?)\s*\}\s*$/im);
@@ -44,7 +44,6 @@ async function renderSong(path) {
   }
 
   const fileName = path.split("/").pop() || path;
-  titleEl.textContent = fileNameToTitle(fileName);
 
   try {
     const response = await fetch(`${songsDir}/${path}`);
@@ -53,6 +52,7 @@ async function renderSong(path) {
     }
 
     const text = await response.text();
+    titleEl.textContent = extractChordProTitle(text, fileName);
     renderYoutubeLink(extractYoutubeUrl(text));
 
     const parser = new ChordSheetJS.ChordProParser();
@@ -60,6 +60,7 @@ async function renderSong(path) {
     const formatter = new ChordSheetJS.HtmlDivFormatter();
     songEl.innerHTML = formatter.format(song);
   } catch (error) {
+    titleEl.textContent = fileNameToTitle(fileName);
     songEl.textContent = error.message;
   }
 }

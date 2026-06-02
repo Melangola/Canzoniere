@@ -1,6 +1,6 @@
 const songListEl = document.getElementById("song-list");
 const homeMessageEl = document.getElementById("home-message");
-const { songsDir, fileNameToTitle } = window.Canzoniere;
+const { songsDir, fileNameToTitle, extractChordProTitle } = window.Canzoniere;
 
 function inferGitHubRepo() {
   const { hostname, pathname } = window.location;
@@ -71,7 +71,22 @@ async function loadSongIndex() {
   return loadSongIndexFromManifest();
 }
 
-function renderHome(songFiles) {
+async function getSongDisplayTitle(fileName) {
+  try {
+    const response = await fetch(`${songsDir}/${fileName}`);
+    if (!response.ok) {
+      throw new Error(`File non trovato: ${songsDir}/${fileName}`);
+    }
+
+    const text = await response.text();
+    return extractChordProTitle(text, fileName);
+  } catch (error) {
+    console.warn(`Impossibile leggere il titolo da ${fileName}`, error);
+    return fileNameToTitle(fileName);
+  }
+}
+
+async function renderHome(songFiles) {
   songListEl.innerHTML = "";
 
   if (songFiles.length === 0) {
@@ -82,11 +97,20 @@ function renderHome(songFiles) {
 
   homeMessageEl.classList.add("hidden");
 
-  for (const fileName of songFiles) {
+  const songs = await Promise.all(
+    songFiles.map(async (fileName) => ({
+      fileName,
+      title: await getSongDisplayTitle(fileName)
+    }))
+  );
+
+  songs.sort((a, b) => a.title.localeCompare(b.title, undefined, { sensitivity: "base" }));
+
+  for (const { fileName, title } of songs) {
     const li = document.createElement("li");
     const link = document.createElement("a");
     link.href = `song.html?path=${encodeURIComponent(fileName)}`;
-    link.textContent = fileNameToTitle(fileName);
+    link.textContent = title;
     li.appendChild(link);
     songListEl.appendChild(li);
   }
@@ -95,7 +119,7 @@ function renderHome(songFiles) {
 async function init() {
   try {
     const songFiles = await loadSongIndex();
-    renderHome(songFiles);
+    await renderHome(songFiles);
   } catch (error) {
     homeMessageEl.textContent = error.message;
     homeMessageEl.classList.remove("hidden");
