@@ -1,9 +1,7 @@
-[D   D U   U D U]
-[1 & 2 & 3 & 4 &]
-[G]
-[D   D U D   D U   U   U   U D U]
-[1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 &]
-
+{title: Amore all'ultimo piano (Dormi!)}
+{youtube: https://www.youtube.com/watch?v=Sw0LJ7IsEwY}
+{strum: D-DU-UDU}
+{strum-G: D-DUD-DU-U-U-UDU}
 
 [C F C F]
 [C F G]
