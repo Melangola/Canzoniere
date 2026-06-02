@@ -1,5 +1,23 @@
+function extractStrumPatterns(text) {
+  const directives = [];
+  const strumDirectivePattern = /\{\s*strum(?:[-\s]+([^:}]+?))?\s*:\s*([^}]*?)\s*\}/gi;
+  let match;
+
+  while ((match = strumDirectivePattern.exec(text)) !== null) {
+    const label = (match[1] || "").trim();
+    const pattern = Array.from(match[2].toUpperCase()).filter((character) => "DU-".includes(character));
+
+    if (pattern.length > 0) {
+      directives.push({ label, pattern });
+    }
+  }
+
+  return directives;
+}
+
 window.Canzoniere = {
   songsDir: "canzoni",
+  extractStrumPatterns,
   fileNameToTitle(fileName) {
     return fileName
       .replace(/\.txt$/i, "")
