@@ -51,12 +51,14 @@ async function renderSong(path) {
       throw new Error(`File non trovato: ${songsDir}/${path}`);
     }
 
+
     const text = await response.text();
     titleEl.textContent = extractChordProTitle(text, fileName);
     renderYoutubeLink(extractYoutubeUrl(text));
 
     const parser = new ChordSheetJS.ChordProParser();
     const song = parser.parse(text);
+    console.log(song);
     const formatter = new ChordSheetJS.HtmlDivFormatter();
     songEl.innerHTML = formatter.format(song);
   } catch (error) {
