@@ -195,3 +195,7 @@ h1 {
 .chord:empty {
     display: none;
 }
+
+.lyrics:empty {
+    padding: 0.1em;
+}
