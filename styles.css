@@ -83,6 +83,31 @@ h1 {
   fill: currentColor;
 }
 
+#options {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 16px 0;
+}
+
+.option-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 2.4rem;
+  padding: 8px 12px;
+  color: var(--ink);
+  background: var(--white);
+  border-radius: 999px;
+  box-shadow: 4px 3px var(--green-shadow);
+  font-weight: 600;
+}
+
+.option-control input[type="range"] {
+  accent-color: var(--blue);
+}
+
 .panel {
   background: var(--card);
   border: 2px solid var(--card-shadow);
