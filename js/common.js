@@ -8,9 +8,9 @@ window.Canzoniere = {
       .trim();
   },
   extractChordProTitle(text, fallbackFileName) {
-    const titleDirective = text.match(/^\s*\{(?:title|t):\s*([^}]*?)\s*\}\s*$/im);
-    if (titleDirective) {
-      return titleDirective[1].trim();
+    const titleTag = text.match(/^\s*\{(?:title|t):\s*([^}]*?)\s*\}\s*$/im);
+    if (titleTag) {
+      return titleTag[1].trim();
     }
 
     return window.Canzoniere.fileNameToTitle(fallbackFileName);

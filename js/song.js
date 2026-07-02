@@ -13,9 +13,54 @@ const { songsDir, fileNameToTitle, extractChordProTitle } = window.Canzoniere;
 let scrollAnimationFrame = null;
 let lastScrollTimestamp = null;
 
+function formatChordText(input) {
+  const lines = input.split("\n");
+
+  const root = document.createElement("div");
+  root.className = "song";
+
+  for (let line of lines) {
+    const lineEl = document.createElement("div");
+    lineEl.className = "line";
+
+    if (line.trim().startsWith("{")) continue;
+
+    let hasChord = false;
+
+    // Replace [C], [Am], etc.
+    const parts = line.split(/(\[[^\]]+\])/g);
+
+    for (let part of parts) {
+      const chordMatch = part.match(/^\[([^\]]+)\]$/);
+
+      if (chordMatch) {
+        hasChord = true;
+
+        const chord = document.createElement("span");
+        chord.className = "chord";
+        chord.textContent = chordMatch[1];
+
+        const anchor = document.createElement("span");
+        anchor.className = "chord-anchor";
+        anchor.appendChild(chord);
+
+        lineEl.appendChild(anchor);
+      } else {
+        lineEl.appendChild(document.createTextNode(part));
+      }
+    }
+
+    if (hasChord) lineEl.classList.add("has-chord");
+
+    root.appendChild(lineEl);
+  }
+
+  return root.outerHTML;
+}
+
 function extractSpeed(text) {
-  const speedDirective = text.match(/^\s*\{speed:\s*([0-9]+(?:\.[0-9]+)?)\s*\}\s*$/im);
-  return speedDirective ? Number.parseFloat(speedDirective[1]) : 0;
+  const speedTag = text.match(/^\s*\{speed:\s*([0-9]+(?:\.[0-9]+)?)\s*\}\s*$/im);
+  return speedTag ? Number.parseFloat(speedTag[1]) : 0;
 }
 
 function hasChords(text) {
@@ -73,11 +118,11 @@ function configureOptions({ chordsAvailable, speed }) {
   setChordsVisible(false);
   chordsOptionEl.classList.toggle("hidden", !chordsAvailable);
 
-  const safeSpeed = Number.isFinite(speed) ? Math.min(Math.max(speed, 0), Number(scrollSpeedEl.max)) : 0;
-  scrollSpeedEl.value = safeSpeed;
-  updateScrollSpeedValue(safeSpeed);
-  scrollOptionEl.classList.remove("hidden");
-  startAutoScroll();
+  //const safeSpeed = Number.isFinite(speed) ? Math.min(Math.max(speed, 0), Number(scrollSpeedEl.max)) : 0;
+  //scrollSpeedEl.value = safeSpeed;
+  //updateScrollSpeedValue(safeSpeed);
+  //scrollOptionEl.classList.remove("hidden");
+  //startAutoScroll();
 }
 
 function resetOptions() {
@@ -99,12 +144,12 @@ scrollSpeedEl.addEventListener("input", () => {
 });
 
 function extractYoutubeUrl(text) {
-  const youtubeDirective = text.match(/^\s*\{youtube:\s*([^}]+?)\s*\}\s*$/im);
-  if (!youtubeDirective) {
+  const youtubeTag = text.match(/^\s*\{youtube:\s*([^}]+?)\s*\}\s*$/im);
+  if (!youtubeTag) {
     return null;
   }
 
-  const url = youtubeDirective[1].trim();
+  const url = youtubeTag[1].trim();
   try {
     const parsedUrl = new URL(url);
     const hostname = parsedUrl.hostname.toLowerCase();
@@ -154,10 +199,7 @@ async function renderSong(path) {
       speed: extractSpeed(text)
     });
 
-    const parser = new ChordSheetJS.ChordProParser();
-    const song = parser.parse(text);
-    const formatter = new ChordSheetJS.HtmlDivFormatter();
-    songEl.innerHTML = formatter.format(song);
+    songEl.innerHTML = formatChordText(text);
   } catch (error) {
     titleEl.textContent = fileNameToTitle(fileName);
     songEl.textContent = error.message;

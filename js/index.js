@@ -107,12 +107,11 @@ async function renderHome(songFiles) {
   songs.sort((a, b) => a.title.localeCompare(b.title, undefined, { sensitivity: "base" }));
 
   for (const { fileName, title } of songs) {
-    const li = document.createElement("li");
     const link = document.createElement("a");
     link.href = `song.html?path=${encodeURIComponent(fileName)}`;
+    link.className = "button";
     link.textContent = title;
-    li.appendChild(link);
-    songListEl.appendChild(li);
+    songListEl.appendChild(link);
   }
 }
 

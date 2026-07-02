@@ -1,6 +1,7 @@
 :root {
   color-scheme: light;
   --white: #ffffff;
+  --black: #001000;
   --green: #407D39;
   --blue: #3636c8;
 
@@ -24,16 +25,22 @@
 
 body {
   margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
-  background: var(--bg);
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: 100% 100%;
-  color: var(--white);
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--black);
   line-height: 1.4;
 }
 
-body {
+.landscape {
+  margin: 0;
+  min-height: 100vh;
+  background: url("gransasso.jpg") center center / cover no-repeat fixed;
+}
+
+.pastel {
+  background: #accdea
+}
+
+.container {
   max-width: 960px;
   margin: 0 auto;
   padding: 32px 20px 64px;
@@ -108,45 +115,54 @@ h1 {
   accent-color: var(--blue);
 }
 
-.panel {
-  background: var(--card);
-  border: 2px solid var(--card-shadow);
-  border-radius: 8px;
-  padding: 32px;
-  box-shadow: 8px 5px var(--card-shadow);
-}
-
 .hidden {
   display: none;
 }
 
 .song-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  gap: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.song-list a {
-  color: var(--white);
+.song-list a.button {
+  width: fit-content;
+  padding: 14px 18px;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  border-radius: 14px;
+
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(2px) saturate(120%);
+
+  display: inline-block;
   text-decoration: none;
+  color: inherit;
+  font: inherit;
   font-weight: 600;
-  display: block;
-  padding: 12px 14px;
-  border: none;
-  border-radius: 6px;
-  background: var(--list);
-  color: var(--ink);
-  transition: transform 140ms ease, border-color 140ms ease, background 140ms ease;
+  font-size: large;
+
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+
+  transition:
+    background .2s ease,
+    transform .15s ease,
+    box-shadow .2s ease;
 }
 
-.song-list a:hover,
-.song-list a:focus-visible {
-  transform: translateY(-1px);
-  border-color: var(--accent);
-  background: var(--accent-soft);
-  outline: none;
+.song-list a.button:hover {
+  background: rgba(255, 255, 255, 0.28);
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+.song-list a.button:active {
+    transform: translateY(0);
+    background: rgba(255, 255, 255, 0.22);
 }
 
 .message {
@@ -198,4 +214,48 @@ h1 {
 
 .lyrics:empty {
     padding: 0.1em;
+}
+
+.line:empty {
+  height: 1.25em; /* Matches standard line height */
+}
+
+.song {
+    font-family: sans-serif;
+    white-space: pre-wrap;
+}
+
+.line {
+    position: relative;
+    line-height: 1.6;
+}
+
+.chord-anchor {
+    position: relative;
+    display: inline;
+}
+
+.chord {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-0.5em);
+    bottom: 100%;
+    margin-bottom: 0.2em;
+
+    font-weight: bold;
+    font-size: 0.85em;
+    color: #bee1ff;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+
+.line.has-chord {
+  padding-top: 1.2em; /* space for chords above */
+}
+.hide-chords .song .line .chord-anchor .chord {
+  display: none;
+}
+.hide-chords .song .line.has-chord {
+  padding-top: 0;
 }
