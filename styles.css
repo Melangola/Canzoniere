@@ -37,7 +37,7 @@ body {
 }
 
 .pastel {
-  background: #accdea
+  background: #cfe9ff
 }
 
 .container {
@@ -127,37 +127,27 @@ h1 {
 
 .song-list a.button {
   width: fit-content;
-  padding: 14px 18px;
-  border: 2px solid rgba(255, 255, 255, 0.6);
-  border-radius: 14px;
+  padding: 16px 16px;
+  border-radius: 16px;
 
-  background: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(2px) saturate(120%);
+  backdrop-filter: blur(4px);
+  background: rgba(255, 255, 255, 0.01);
+  border-top: 1px solid rgba(255, 255, 255, 0.4);
+  border-left: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.1);
 
   display: inline-block;
   text-decoration: none;
-  color: inherit;
+  color: white;
   font: inherit;
   font-weight: 600;
   font-size: large;
-
-  box-shadow:
-    0 8px 24px rgba(0, 0, 0, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.45);
-
-  transition:
-    background .2s ease,
-    transform .15s ease,
-    box-shadow .2s ease;
 }
 
 .song-list a.button:hover {
-  background: rgba(255, 255, 255, 0.28);
   transform: translateY(-2px);
 
-  box-shadow:
-    0 12px 28px rgba(0, 0, 0, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.4),
 }
 
 .song-list a.button:active {
@@ -244,7 +234,7 @@ h1 {
 
     font-weight: bold;
     font-size: 0.85em;
-    color: #bee1ff;
+    color: var(--white);
     white-space: nowrap;
     pointer-events: none;
 }
