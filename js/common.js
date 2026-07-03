@@ -7,12 +7,12 @@ window.Canzoniere = {
       .replace(/\s+/g, " ")
       .trim();
   },
-  extractChordProTitle(text, fallbackFileName) {
+  extractChordProTitle(text, fileName) {
     const titleTag = text.match(/^\s*\{(?:title|t):\s*([^}]*?)\s*\}\s*$/im);
     if (titleTag) {
       return titleTag[1].trim();
     }
 
-    return window.Canzoniere.fileNameToTitle(fallbackFileName);
+    return window.Canzoniere.fileNameToTitle(fileName);
   }
 };

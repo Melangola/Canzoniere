@@ -90,7 +90,7 @@ async function renderHome(songFiles) {
   songListEl.innerHTML = "";
 
   if (songFiles.length === 0) {
-    homeMessageEl.textContent = "Nessuna canzone trovata. Aggiungi i file .txt in canzoni/. Se GitHub Pages non riesce a rilevarli automaticamente, usa songs.json come fallback.";
+    homeMessageEl.textContent = "Nessuna canzone trovata.";
     homeMessageEl.classList.remove("hidden");
     return;
   }
