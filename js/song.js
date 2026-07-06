@@ -12,16 +12,26 @@ let lastTime = 0; // autoscroll animation
 const { songsDir, fileNameToTitle, extractChordProTitle } = window.Canzoniere;
 
 function formatChordText(input) {
-  const lines = input.split("\n");
+  let lines = input.split("\n");
 
   const root = document.createElement("div");
   root.className = "song";
+
+  //skip empty beginning
+  for (let i = 0; i < lines.length; i++) {
+    if (lines[i].trim().startsWith("{") || lines[i].trim() === "") continue;
+    //if (lines[i].trim().startsWith("[") && !chordsToggleEl.checked) continue;
+
+    console.log(lines[i])
+    lines = lines.slice(i)
+    break;
+  }
 
   for (let line of lines) {
     const lineEl = document.createElement("div");
     lineEl.className = "line";
 
-    if (line.trim().startsWith("{")) continue;
+    //if (line.trim().startsWith("{")) continue;
 
     let hasChord = false;
 
@@ -66,19 +76,19 @@ function hasChords(text) {
 
 function setChordsVisible(visible) {
   songEl.classList.toggle("hide-chords", !visible);
+  speedOptionEl.classList.toggle("hidden", !visible);
 }
 
 function configureOptions({ chordsAvailable, speed }) {
   //default to plain text
   chordsToggleEl.checked = false;
   setChordsVisible(false);
+  //speedOptionEl.classList.toggle("hidden", !chordsAvailable);
 
   // do show the options if cords are available
   chordsOptionEl.classList.toggle("hidden", !chordsAvailable);
 
-  speedOptionEl.classList.toggle("hidden", !chordsAvailable);
   if(speed) speedSliderEl.value = speed;
-  //speedSliderEl.oninput = e => speedVar = Number(e.target.value);
 }
 
 chordsToggleEl.addEventListener("change", () => {
@@ -86,10 +96,25 @@ chordsToggleEl.addEventListener("change", () => {
 });
 
 speedToggleEl.addEventListener("change", () => {
-  if (speedToggleEl.checked){
+  if(speedToggleEl.checked){
     lastTime = 0;
     requestAnimationFrame(step);
   }
+});
+
+songEl.addEventListener("dblclick", () => {
+  speedToggleEl.checked = !speedToggleEl.checked;
+  if(speedToggleEl.checked){
+    lastTime = 0;
+    requestAnimationFrame(step);
+  }
+});
+
+speedSliderEl.addEventListener('change', (e) => {
+  console.log('Final value:', e.target.value);
+  speedToggleEl.checked = true;
+  lastTime = 0;
+  requestAnimationFrame(step);
 });
 
 function extractYoutubeUrl(text) {
@@ -131,9 +156,9 @@ function step(timestamp) {
     window.scrollBy(0, speedSliderEl.value * dt);
 
     // Stop at bottom
-    if (window.innerHeight + window.scrollY >= document.body.scrollHeight) {
-        speedToggleEl.checked = false;
-        return;
+    if (window.innerHeight + window.scrollY + 4 >= document.body.scrollHeight) {
+      speedToggleEl.checked = false;
+      return;
     }
 
     requestAnimationFrame(step);
@@ -153,7 +178,7 @@ async function renderSong(path) {
     if (!response.ok) {
       throw new Error(`File non trovato: ${songsDir}/${path}`);
     }
-
+    // TODO save tis text and completely reformat the div according to chordsToggleEl instead of simply hiding and unhiding
     const text = await response.text();
     titleEl.textContent = extractChordProTitle(text, fileName);
     renderYoutubeLink(extractYoutubeUrl(text));
