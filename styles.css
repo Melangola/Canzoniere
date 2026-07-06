@@ -37,17 +37,19 @@ body {
 }
 
 .pastel {
-  background: #cfffd7
+  background: #ecffef
 }
 
 .container {
+  display: flex;
+  flex-direction: column;
   max-width: 960px;
   margin: 0 auto;
   padding: 32px;
 }
 
 h1 {
-  font-size: clamp(2rem, 5vw, 3.4rem);
+  font-size: 2rem;
   line-height: 1;
   margin-top: 8px;
   margin-bottom: 16px;
@@ -59,6 +61,7 @@ h1 {
   gap: 12px;
   flex-wrap: wrap;
   position: sticky;
+  align-self: flex-start;
 }
 
 .option {
@@ -68,7 +71,8 @@ h1 {
   background: var(--white);
   padding: 12px;
   gap: 8px;
-  border-radius: 32px;
+  border: 1px solid var(--green);
+  border-radius: 16px;
   box-shadow: 4px 3px var(--green-shadow);
   transition: transform 140ms ease, background 140ms ease;
 }

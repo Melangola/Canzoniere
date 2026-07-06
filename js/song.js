@@ -9,6 +9,7 @@ const speedOptionEl = document.getElementById("speed-option");
 const speedToggleEl = document.getElementById("speed-toggle");
 const speedSliderEl = document.getElementById("speed-slider"); // pixels per second
 let lastTime = 0; // autoscroll animation
+let remainder = 0; // fractions of a pixel
 const { songsDir, fileNameToTitle, extractChordProTitle } = window.Canzoniere;
 
 function formatChordText(input) {
@@ -103,6 +104,9 @@ speedToggleEl.addEventListener("change", () => {
 });
 
 songEl.addEventListener("dblclick", () => {
+  chordsToggleEl.checked = true;
+  setChordsVisible(true);
+
   speedToggleEl.checked = !speedToggleEl.checked;
   if(speedToggleEl.checked){
     lastTime = 0;
@@ -148,13 +152,24 @@ function renderYoutubeLink(url) {
 function step(timestamp) {
     if (!speedToggleEl.checked) return;
 
-    if (!lastTime) lastTime = timestamp;
+    if (!lastTime) {
+      lastTime = timestamp;
+      remainder = 0;
+      console.log(speedSliderEl.value);console.log(document.body.scrollHeight, window.innerHeight);
+    }
 
     const dt = (timestamp - lastTime) / 1000;
     lastTime = timestamp;
 
-    window.scrollBy(0, speedSliderEl.value * dt);
-
+    let pixels = speedSliderEl.value * dt + remainder;
+    let integer = Math.floor(pixels);
+    if(integer > 1){
+      remainder = pixels - integer
+      window.scrollBy(0, integer);
+    }else{
+      remainder = pixels
+    }
+    
     // Stop at bottom
     if (window.innerHeight + window.scrollY + 4 >= document.body.scrollHeight) {
       speedToggleEl.checked = false;
