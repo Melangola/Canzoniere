@@ -5,6 +5,10 @@ const songEl = document.getElementById("song");
 const youtubeLinkEl = document.getElementById("youtube-link");
 const chordsOptionEl = document.getElementById("chords-option");
 const chordsToggleEl = document.getElementById("chords-toggle");
+const speedOptionEl = document.getElementById("speed-option");
+const speedToggleEl = document.getElementById("speed-toggle");
+const speedSliderEl = document.getElementById("speed-slider"); // pixels per second
+let lastTime = 0; // autoscroll animation
 const { songsDir, fileNameToTitle, extractChordProTitle } = window.Canzoniere;
 
 function formatChordText(input) {
@@ -21,7 +25,6 @@ function formatChordText(input) {
 
     let hasChord = false;
 
-    // Replace [C], [Am], etc.
     const parts = line.split(/(\[[^\]]+\])/g);
 
     for (let part of parts) {
@@ -53,8 +56,8 @@ function formatChordText(input) {
 }
 
 function extractSpeed(text) {
-  const speedTag = text.match(/^\s*\{speed:\s*([0-9]+(?:\.[0-9]+)?)\s*\}\s*$/im);
-  return speedTag ? Number.parseFloat(speedTag[1]) : 0;
+  const speedTag = text.match(/^\s*\{speed:\s*([0-9]+)\s*\}\s*$/im);
+  return speedTag ? speedTag : "";
 }
 
 function hasChords(text) {
@@ -66,18 +69,27 @@ function setChordsVisible(visible) {
 }
 
 function configureOptions({ chordsAvailable, speed }) {
+  //default to plain text
   chordsToggleEl.checked = false;
   setChordsVisible(false);
-  chordsOptionEl.classList.toggle("hidden", !chordsAvailable);
-}
 
-function resetOptions() {
-  chordsOptionEl.classList.add("hidden");
-  setChordsVisible(true);
+  // do show the options if cords are available
+  chordsOptionEl.classList.toggle("hidden", !chordsAvailable);
+
+  speedOptionEl.classList.toggle("hidden", !chordsAvailable);
+  if(speed) speedSliderEl.value = speed;
+  //speedSliderEl.oninput = e => speedVar = Number(e.target.value);
 }
 
 chordsToggleEl.addEventListener("change", () => {
   setChordsVisible(chordsToggleEl.checked);
+});
+
+speedToggleEl.addEventListener("change", () => {
+  if (speedToggleEl.checked){
+    lastTime = 0;
+    requestAnimationFrame(step);
+  }
 });
 
 function extractYoutubeUrl(text) {
@@ -101,7 +113,6 @@ function extractYoutubeUrl(text) {
 function renderYoutubeLink(url) {
   if (!url) {
     youtubeLinkEl.classList.add("hidden");
-    youtubeLinkEl.removeAttribute("href");
     return;
   }
 
@@ -109,10 +120,26 @@ function renderYoutubeLink(url) {
   youtubeLinkEl.classList.remove("hidden");
 }
 
-async function renderSong(path) {
-  renderYoutubeLink(null);
-  resetOptions();
+function step(timestamp) {
+    if (!speedToggleEl.checked) return;
 
+    if (!lastTime) lastTime = timestamp;
+
+    const dt = (timestamp - lastTime) / 1000;
+    lastTime = timestamp;
+
+    window.scrollBy(0, speedSliderEl.value * dt);
+
+    // Stop at bottom
+    if (window.innerHeight + window.scrollY >= document.body.scrollHeight) {
+        speedToggleEl.checked = false;
+        return;
+    }
+
+    requestAnimationFrame(step);
+}
+
+async function renderSong(path) {
   if (!path) {
     titleEl.textContent = "Canzone non selezionata";
     songEl.textContent = "Nessuna canzone selezionata. Torna all'indice e scegli una canzone.";
@@ -126,7 +153,6 @@ async function renderSong(path) {
     if (!response.ok) {
       throw new Error(`File non trovato: ${songsDir}/${path}`);
     }
-
 
     const text = await response.text();
     titleEl.textContent = extractChordProTitle(text, fileName);

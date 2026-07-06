@@ -63,37 +63,27 @@ h1 {
   align-items: center;
   justify-content: center;
   background: var(--white);
-  padding: 8px;
+  padding: 12px;
+  gap: 8px;
   border-radius: 32px;
   box-shadow: 4px 3px var(--green-shadow);
   transition: transform 140ms ease, background 140ms ease;
 }
+
 .option:hover, .option:focus-visible {
   transform: translateY(-1px);
   background: var(--accent-soft);
   outline: none;
 }
 
-.youtube-icon {
-  width: 1.55rem;
-  height: 1.55rem;
-  fill: #ff0000;
-}
-
-#options {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin: 16px 0;
-}
-
-.option-control input[type="range"] {
-  accent-color: var(--blue);
-}
-
 .hidden {
   display: none;
+}
+
+.youtube-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  fill: #CD201F;
 }
 
 .song-list {
@@ -215,7 +205,6 @@ h1 {
     white-space: nowrap;
     pointer-events: none;
 }
-
 
 .line.has-chord {
   padding-top: 1.2em; /* space for chords above */
