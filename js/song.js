@@ -78,6 +78,7 @@ function hasChords(text) {
 function setChordsVisible(visible) {
   songEl.classList.toggle("hide-chords", !visible);
   speedOptionEl.classList.toggle("hidden", !visible);
+  if(speedToggleEl.checked && !visible) speedToggleEl.checked = false;
 }
 
 function configureOptions({ chordsAvailable, speed }) {

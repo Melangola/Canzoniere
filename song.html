@@ -11,7 +11,12 @@
 </head>
 <body class="pastel">
   <div class="container">
-    <a class="back-link" href="./">&larr; Torna all'indice</a>
+    <header class="header" >
+      <a class="back" href="./">
+        <img src="back.svg">
+      </a>
+      <div class="title">Canzoniere</div>
+    </header>
     <div class="option-container" >
         <a id="youtube-link" class="option hidden" href="#" target="_blank" rel="noopener noreferrer" title="Apri su YouTube">
           <svg class="youtube-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -28,7 +33,7 @@
           <input id="speed-slider" type="range" min="0" max="100" step="1" value="29" />
         </label>
     </div>
-    <h1 id="title"></h1>
+    <div id="title"></div>
     <main id="song"></main>
   </div>
 </body>

@@ -1,6 +1,5 @@
 {title: Ballata di poche pretese}
 {youtube: https://www.youtube.com/watch?v=Sw0LJ7IsEwY}
-
 [C]Ballata di [G]poche [C]pretese,
 [F]cantata una [G]sera [C]qualunque
 [F]davanti a un [G]bicchiere di [C]vino,

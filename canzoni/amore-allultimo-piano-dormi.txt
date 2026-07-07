@@ -2,10 +2,8 @@
 {youtube: https://www.youtube.com/watch?v=Sw0LJ7IsEwY}
 {strum: D-DU-UDU}
 {strum-G: D-DUD-DU-U-U-UDU}
-
 [C F C F]
 [C F G]
-
 [C]Dorm[F]i, s'è fatto [C]tard[F]i;
 sono [C]ore che mi guardi in [F]silenzio
 e che non [G]parli
