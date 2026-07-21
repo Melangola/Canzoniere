@@ -1,11 +1,11 @@
 {title: L'Ultimo Drago}
 {youtube: https://www.youtube.com/watch?v=Ok6bBkmYfc4}
 
-[Am] [G] [C] [Am]
-[F] [G] [C] [Am]
-[F] [G] [C] [Am]
-[F] [G] [Dm]
-[F] [G] [Am]
+[Am G C Am]
+[F G C Am]
+[F G C Am]
+[F G Dm]
+[F G Am]
 
 [Am]L‘ultimo [G]Drago e il [C]grande [Am]Guerriero,
 [F]l‘un contro [G]l‘altro [C]ansante il [Am]respiro
