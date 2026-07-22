@@ -54,36 +54,17 @@ body {
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
-  gap: 32px;
   background-color: var(--green);
   color: var(--green-ink);
   border-bottom: 6px solid var(--green-shadow);
 }
 
-.back {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 64px;
-  width: 64px;
-  text-decoration: none;
-}
 .back::hover, .back:focus-visible {
   background-color: var(--green-shadow);
 }
-.back img {
-  height: 48px;
-}
-.header .title {
-  font-size: 2rem;
-  font-weight: 900;
-}
 
-#title {
-  font-size: 3rem;
-  font-weight: 800;
-  margin-top: 8px;
-  margin-bottom: 16px;
+.header h1 {
+  margin: 0 auto;
 }
 
 .option-container {
@@ -163,6 +144,10 @@ body {
 .message {
   color: var(--muted);
   margin: 0;
+}
+
+#title {
+  font-size: 2.5rem;
 }
 
 #song {

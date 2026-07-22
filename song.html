@@ -13,9 +13,11 @@
   <div class="container">
     <header class="header" >
       <a class="back" href="./">
-        <img src="back.svg">
+        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="white" class="bi bi-arrow-left-short" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5"/>
+        </svg>
       </a>
-      <div class="title">Canzoniere</div>
+      <h1>Canzoniere</h1>
     </header>
     <div class="option-container" >
         <a id="youtube-link" class="option hidden" href="#" target="_blank" rel="noopener noreferrer" title="Apri su YouTube">
@@ -33,7 +35,7 @@
           <input id="speed-slider" type="range" min="0" max="50" step="0.5" value="10" />
         </label>
     </div>
-    <div id="title"></div>
+    <h1 id="title"></h1>
     <main id="song"></main>
   </div>
 </body>
