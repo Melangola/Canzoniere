@@ -130,6 +130,10 @@ body {
   font-size: large;
 }
 
+a, button, input, textarea, select {
+    -webkit-tap-highlight-color: transparent;
+}
+
 .song-list a.button:hover {
   transform: translateY(-2px);
   background: rgba(0, 50, 20, 0.5);
@@ -147,14 +151,16 @@ body {
 }
 
 #title {
-  font-size: 2.5rem;
+  padding: 0 16px 0 16px;
+  font-size: 2rem;
 }
 
 #song {
-  font-size: 2rem;
+  padding: 0 16px 0 16px;
+  font-size: 1.5rem;
   font-weight: 500;
   margin-top: 1rem;
-  white-space: pre-wrap;
+  white-space: preserve nowrap;
 }
 
 .paragraph {
@@ -206,8 +212,6 @@ body {
 
 .chord {
     position: absolute;
-    left: 50%;
-    transform: translateX(-0.5em);
     bottom: 100%;
     margin-bottom: 0.2em;
 

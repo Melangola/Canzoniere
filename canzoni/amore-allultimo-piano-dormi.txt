@@ -2,6 +2,7 @@
 {youtube: https://www.youtube.com/watch?v=Sw0LJ7IsEwY}
 {strum: D-DU-UDU}
 {strum-G: D-DUD-DU-U-U-UDU}
+
 [C F C F]
 [C F G]
 [C]Dorm[F]i, s'è fatto [C]tard[F]i;
@@ -62,7 +63,6 @@ Fuori, [C]senti [F]... urlano le [C]sirene. [F]
 Sicuramente [C]stanotte fuori [F]qualcuno
 s'è sentito un po' [G]male.
 
-
-[Am] [Em]
-[F] [C]
-[G] [C]
+[Am Em]
+[F C]
+[G C]
